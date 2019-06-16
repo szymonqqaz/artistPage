@@ -11,7 +11,7 @@ import {
   StyledCenterWrapper,
   StyledNumber,
   StyledLoad,
-} from 'templates/StartTemplate.style';
+} from 'templates/StartTemplate/StartTemplatePhone.style';
 import small_arrow from 'assets/images/small_arrow.svg';
 
 class StartTemplate extends Component {
@@ -19,6 +19,7 @@ class StartTemplate extends Component {
     imageNubmer: 0,
     activeAnimation: '',
     acitveAnimationLoad: true,
+    buttonActiveClic: true,
     howTime: setInterval(() => {
       const { imageNubmer } = this.state;
       this.setState({
@@ -34,37 +35,32 @@ class StartTemplate extends Component {
     }, 6000),
   };
 
-  //cofanie , do przodu, oraz cały czas;
-  //cofnięcie sie przez wyszystkie
-
-  animationToLeft = () => {
-    const { imageNubmer } = this.state;
-    this.setState({
-      activeAnimation: 'leave',
-    });
-
-    setTimeout(() => {
+  animationTo = where => {
+    const { buttonActiveClic } = this.state;
+    if (buttonActiveClic) {
+      const { imageNubmer, howTime } = this.state;
       this.setState({
-        imageNubmer: imageNubmer === 3 ? 0 : imageNubmer + 1,
-        activeAnimation: 'next',
-      });
-    }, 800);
-  };
-
-  changeNumber = a => {
-    const { imageNubmer, howTime } = this.state;
-    if (a === 'add') {
-      this.setState({
-        activeAnimation: 'leave',
+        activeAnimation: where === 'right' ? 'leave' : 'leaveLeft',
         acitveAnimationLoad: false,
+        buttonActiveClic: false,
       });
       clearInterval(howTime);
 
       setTimeout(() => {
         this.setState({
-          activeAnimation: 'next',
-          imageNubmer: a === 'add' ? imageNubmer + 1 : imageNubmer - 1,
+          activeAnimation: where === 'right' ? 'next' : 'nextLeft',
           acitveAnimationLoad: true,
+        });
+        if (where === 'right') {
+          this.setState({
+            imageNubmer: imageNubmer === 3 ? 0 : imageNubmer + 1,
+          });
+        } else {
+          this.setState({
+            imageNubmer: imageNubmer === 0 ? 3 : imageNubmer - 1,
+          });
+        }
+        this.setState({
           howTime: setInterval(() => {
             const { imageNubmer } = this.state;
             this.setState({
@@ -80,6 +76,11 @@ class StartTemplate extends Component {
           }, 6000),
         });
       }, 800);
+      setTimeout(() => {
+        this.setState({
+          buttonActiveClic: true,
+        });
+      }, 1300);
     }
   };
 
@@ -136,14 +137,14 @@ class StartTemplate extends Component {
               )}
             </StyledMainTemplate>
             <StyledWrapperNav>
-              <StyledButton>
+              <StyledButton onClick={() => this.animationTo()}>
                 <StyledIcon src={small_arrow} />
               </StyledButton>
               <StyledCenterWrapper>
                 <StyledNumber>0{imageNubmer + 1}/04</StyledNumber>
                 <StyledLoad active={acitveAnimationLoad} />
               </StyledCenterWrapper>
-              <StyledButton onClick={() => this.changeNumber('add')}>
+              <StyledButton onClick={() => this.animationTo('right')}>
                 <StyledIcon src={small_arrow} secound />
               </StyledButton>
             </StyledWrapperNav>

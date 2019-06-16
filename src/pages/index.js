@@ -1,6 +1,6 @@
 import React from 'react';
 import MainTemplate from 'templates/MainTemplate';
-import StartTemplate from 'templates/StartTemplate';
+import StartTemplate from 'templates/StartTemplate/StartTemplate';
 
 const IndexPage = () => (
   <MainTemplate>

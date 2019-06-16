@@ -1,7 +1,7 @@
 import styled, { css, keyframes } from 'styled-components';
 import Icon from 'components/Icon/Icon';
 
-const todown = keyframes`
+const next = keyframes`
   from{
     transform: translateX(100%);
   }
@@ -11,13 +11,33 @@ const todown = keyframes`
   }
 `;
 
-const Leave = keyframes`
+const nextLeft = keyframes`
+  from{
+    transform: translateX(-100%);
+  }
+
+  to{
+    transform: translateX(0);
+  }
+`;
+
+const leave = keyframes`
   from{
     transform: translateX(0);
   }
 
   to{
     transform: translateX(-100%);
+  }
+`;
+
+const leaveLeft = keyframes`
+  from{
+    transform: translateX(0);
+  }
+
+  to{
+    transform: translateX(100%);
   }
 `;
 
@@ -40,19 +60,32 @@ export const StyledMainTemplate = styled.section`
   background-repeat: no-repeat;
   animation-duration: 0.8s;
 
-  ${({ active }) =>
-    active === 'leave' &&
-    css`
-      animation-name: ${Leave};
-    `}
-
-  ${({ active }) =>
-    active === 'next' &&
-    css`
-      animation-name: ${todown};
-      animation-timing-function: cubic-bezier(0.26, 0.69, 0.53, 1.37);
-      animation-duration: 0.5s;
-    `}
+  ${({ active }) => {
+    switch (active) {
+      case 'next':
+        return css`
+          animation-name: ${next};
+          animation-timing-function: cubic-bezier(0.26, 0.69, 0.53, 1.37);
+          animation-duration: 0.5s;
+        `;
+      case 'nextLeft':
+        return css`
+          animation-name: ${nextLeft};
+          animation-timing-function: cubic-bezier(0.26, 0.69, 0.53, 1.37);
+          animation-duration: 0.5s;
+        `;
+      case 'leave':
+        return css`
+          animation-name: ${leave};
+          animation-duration: 0.8s;
+        `;
+      case 'leaveLeft':
+        return css`
+          animation-name: ${leaveLeft};
+          animation-duration: 0.8s;
+        `;
+    }
+  }}
 `;
 
 export const StyledMainText = styled.div`
