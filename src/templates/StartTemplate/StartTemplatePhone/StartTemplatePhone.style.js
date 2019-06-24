@@ -1,5 +1,6 @@
 import styled, { css, keyframes } from 'styled-components';
 import Icon from 'components/Icon/Icon';
+import media from 'assets/styles/media';
 
 const next = keyframes`
   from{
@@ -43,11 +44,11 @@ const leaveLeft = keyframes`
 
 const AnimationLoad = keyframes`
   from{
-    transform: scaleX(0);
+    transform: translateX(0);
   }
 
   to{
-    transform: scaleX(1) ;
+    transform: translateX(100%);
   }
 `;
 
@@ -86,6 +87,10 @@ export const StyledMainTemplate = styled.section`
         `;
     }
   }}
+
+  ${media.desktop`
+    display: none;
+  `}
 `;
 
 export const StyledMainText = styled.div`
@@ -118,6 +123,10 @@ export const StyledWrapperNav = styled.div`
   display: flex;
 
   z-index: 1000;
+
+  ${media.desktop`
+    display: none;
+  `}
 `;
 
 export const StyledButton = styled.div`
@@ -168,12 +177,13 @@ export const StyledLoad = styled.div`
   background: ${({ theme }) => theme.light_brown};
   position: relative;
   z-index: 300;
+  overflow: hidden;
 
   ::before {
     content: '';
     position: absolute;
     top: 0;
-    left: 0;
+    left: -100%;
     background: ${({ theme }) => theme.brown};
     width: 100%;
     height: 100%;
