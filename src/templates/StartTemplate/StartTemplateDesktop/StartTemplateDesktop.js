@@ -3,8 +3,7 @@ import MenuDesktop from 'components/MenuDesktop/MenuDesktop';
 import small_arrow from 'assets/images/small_arrow.svg';
 import DescriptionPhoto from 'components/DescriptionPhoto/DescriptionPhoto';
 import LoadAndNav from 'components/LoadAndNav/LoadAndNav';
-import { nextTick } from 'q';
-import { throws } from 'assert';
+import PropTypes from 'prop-types';
 import {
   StyledMainWrapper,
   StyledContentWrapper,
@@ -23,90 +22,78 @@ class StartTemplateDesktop extends Component {
     posit: 0,
     counter: 0,
     animationLoad: true,
-    buttonClic: true,
+    activeButtons: true,
     animation: [false, false, false, false],
     interval: setInterval(() => {
-      if (this.state.counter === 3) {
-        console.log('chcę zmienić na mniej');
-        this.changeState(235, false);
+      const { counter } = this.state;
+      if (counter === 3) {
+        this.changePosit(235, false);
         this.setState({ counter: 0 });
-        let animationConst = this.state.animation;
-        animationConst[3] = false;
-        this.setState({ animation: animationConst });
+        this.changeBord(3, false);
         setTimeout(() => {
-          let animationConst = this.state.animation;
-          animationConst[0] = true;
-          this.setState({ animation: animationConst });
+          this.changeBord(0, true);
         }, 1500);
       } else {
-        this.changefuncAn(true);
+        this.chosingPosition(true);
       }
     }, 6000),
   };
 
   componentDidMount() {
-    const { animation } = this.state;
-
     setTimeout(() => {
-      const animationConst = animation;
-      animationConst[0] = true;
-      this.setState({ animation: animationConst });
+      this.changeBord(0, true);
     }, 500);
   }
 
-  changeAnimation = where => {
-    const { counter, animation, interval } = this.state;
+  changeBord = (int, bool) => {
+    const { animation } = this.state;
 
-    console.log(counter);
+    const animationValue = animation;
+    animation[int] = bool;
+    this.setState({ animation: animationValue });
+  };
+
+  changeAnimation = where => {
+    const { counter } = this.state;
 
     if (where) {
-      let animationConst = animation;
-      animationConst[counter] = false;
-      this.setState({ animation: animationConst });
+      this.changeBord(counter, false);
       setTimeout(() => {
-        animationConst[counter + 1] = true;
-        this.setState({ animation: animationConst });
+        this.changeBord(counter + 1, true);
       }, 1500);
     } else {
-      const animationConst = animation;
-      animationConst[counter] = false;
-      this.setState({ animation: animationConst });
+      this.changeBord(counter, false);
       setTimeout(() => {
-        animationConst[counter - 1] = true;
-        this.setState({ animation: animationConst });
+        this.changeBord(counter - 1, true);
       }, 1500);
     }
     setTimeout(() => {
       this.setState({
-        buttonClic: true,
+        activeButtons: true,
       });
     }, 1500);
   };
 
-  changeFunc = b => {
-    const { buttonClic, interval } = this.state;
-    if (buttonClic) {
-      this.changefuncAn(b);
+  activeOtherFunctions = where => {
+    const { activeButtons, interval } = this.state;
+    if (activeButtons) {
+      this.chosingPosition(where);
       clearInterval(interval);
       this.setState({ animationLoad: false });
       setTimeout(() => {
         this.setState({
           animationLoad: true,
           interval: setInterval(() => {
-            if (this.state.counter === 3) {
-              console.log('chcę zmienić na mniej');
-              this.changeState(235, false);
+            const { counter } = this.state;
+            if (counter === 3) {
+              this.changePosit(235, false);
               this.setState({ counter: 0 });
-              let animationConst = this.state.animation;
-              animationConst[3] = false;
-              this.setState({ animation: animationConst });
+              this.changeBord(3, false);
               setTimeout(() => {
-                let animationConst = this.state.animation;
-                animationConst[0] = true;
-                this.setState({ animation: animationConst });
+                this.changeBord(0, true);
               }, 1500);
             } else {
-              this.changefuncAn(true);
+              this.chosingPosition(true);
             }
           }, 6000),
         });
@@ -114,46 +101,46 @@ class StartTemplateDesktop extends Component {
     }
   };
 
-  changefuncAn = b => {
+  chosingPosition = where => {
     const { counter } = this.state;
-    this.setState({ buttonClic: false });
+    this.setState({ activeButtons: false });
     switch (counter) {
       case 0:
-        if (b) {
-          this.changeAnimation(b);
-          this.changeState(83, b);
+        if (where) {
+          this.changeAnimation(where);
+          this.changePosit(83, where);
         }
         break;
       case 1:
-        this.changeAnimation(b);
-        this.changeState(b === true ? 76 : 83, b);
+        this.changeAnimation(where);
+        this.changePosit(where === true ? 76 : 83, where);
         break;
       case 2:
-        this.changeAnimation(b);
-        this.changeState(76, b);
+        this.changeAnimation(where);
+        this.changePosit(76, where);
         break;
       case 3:
-        if (b === false) {
-          this.changeAnimation(b);
-          this.changeState(76, b);
+        if (where === false) {
+          this.changeAnimation(where);
+          this.changePosit(76, where);
         }
         break;
       default:
         break;
-        console.log('dugi counter: ' + this.state.counter);
     }
   };
 
-  changeState = (a, b) => {
+  changePosit = (width, where) => {
     const { counter, posit } = this.state;
     this.setState({
-      posit: b ? posit + -a : posit + a,
-      counter: b ? counter + 1 : counter - 1,
+      posit: where ? posit + -width : posit + width,
+      counter: where ? counter + 1 : counter - 1,
     });
   };
 
   render() {
     const { edges } = this.props;
+    console.log(edges);
     const { posit, animation, animationLoad } = this.state;
     return (
       <StyledMainWrapper>
@@ -186,11 +173,14 @@ class StartTemplateDesktop extends Component {
           </StyledContentWrapper>
         </StyeldWrapperPosit>
         <StyledBar>
-          <StyledWrapperArrow toLeft onClick={() => this.changeFunc(false)}>
+          <StyledWrapperArrow
+            toLeft
+            onClick={() => this.activeOtherFunctions(false)}
+          >
             <StyledIcon src={small_arrow} toLeft />
           </StyledWrapperArrow>
           <LoadAndNav activeElement={this.state.counter} load={animationLoad} />
-          <StyledWrapperArrow onClick={() => this.changeFunc(true)}>
+          <StyledWrapperArrow onClick={() => this.activeOtherFunctions(true)}>
             <StyledIcon src={small_arrow} />
           </StyledWrapperArrow>
         </StyledBar>
@@ -198,5 +188,9 @@ class StartTemplateDesktop extends Component {
     );
   }
 }
+
+StartTemplateDesktop.PropTypes = {
+  edges: PropTypes.arrayOf(),
+};
 
 export default StartTemplateDesktop;

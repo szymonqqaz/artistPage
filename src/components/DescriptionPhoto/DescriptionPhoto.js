@@ -36,10 +36,10 @@ export const StyledText = styled.div`
   ${({ animation }) =>
     animation
       ? css`
-          animation: ${AnimationText} 0.5s forwards;
+          animation: ${AnimationText} 0.5s both;
         `
       : css`
-          animation: ${AnimationTextLeave} 0.5s forwards;
+          animation: ${AnimationTextLeave} 0.5s both;
         `}
 `;
 
