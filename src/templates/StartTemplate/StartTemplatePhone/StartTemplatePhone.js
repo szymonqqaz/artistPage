@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import small_arrow from 'assets/images/small_arrow.svg';
+import ShowAboutButton from 'components/ShowAboutButton/ShowAboutButton';
+import debounce from 'lodash.debounce';
 import {
   StyledMainTemplate,
   StyledMainText,
@@ -32,6 +34,39 @@ class StartTemplatePhone extends Component {
         });
       }, 800);
     }, 6000),
+  };
+
+  stopAnimation = () => {
+    const { howTime } = this.state;
+    const heightOfImageStartTemplatePhone = document.querySelector(
+      '.imageStartTemplatePhone'
+    ).clientHeight;
+    let isAnimation = true;
+    document.addEventListener(
+      'scroll',
+      debounce(() => {
+        const scrollHeight = window.scrollY;
+        if (
+          scrollHeight > heightOfImageStartTemplatePhone / 3 &&
+          isAnimation === true
+        ) {
+          isAnimation = false;
+          this.setState({ acitveAnimationLoad: false });
+          clearInterval(howTime);
+        } else if (
+          isAnimation === false &&
+          scrollHeight < heightOfImageStartTemplatePhone / 3
+        ) {
+          isAnimation = true;
+          this.setState({ acitveAnimationLoad: true });
+          this.animationTo('right');
+        }
+      })
+    );
+  };
+
+  componentDidMount = () => {
+    // this.stopAnimation();
   };
 
   animationTo = where => {
@@ -85,6 +120,7 @@ class StartTemplatePhone extends Component {
 
   render() {
     const { imageNubmer, activeAnimation, acitveAnimationLoad } = this.state;
+    // eslint-disable-next-line
     const { edges } = this.props;
 
     return (
@@ -92,6 +128,7 @@ class StartTemplatePhone extends Component {
         <StyledMainTemplate
           active={activeAnimation}
           image={edges[imageNubmer].node.image.file.url}
+          className="imageStartTemplatePhone"
         >
           {imageNubmer === 0 && (
             <>
@@ -105,6 +142,7 @@ class StartTemplatePhone extends Component {
               </StyledMainText>
             </>
           )}
+          <ShowAboutButton />
         </StyledMainTemplate>
         <StyledWrapperNav>
           <StyledButton onClick={() => this.animationTo()}>

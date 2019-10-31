@@ -41,6 +41,16 @@ export const StyledText = styled.div`
       : css`
           animation: ${AnimationTextLeave} 0.5s both;
         `}
+
+  ${({ secound }) =>
+    secound &&
+    css`
+      width: 22vw;
+      position: fixed;
+      right: 0;
+      top: 20vh;
+      height: 80vh;
+    `}
 `;
 
 export const StyledH1 = styled.h1`
@@ -80,10 +90,12 @@ export const StyledP = styled.p`
   }
 `;
 
-const DescriptionPhoto = ({ title, description, animation }) => (
-  <StyledText animation={animation}>
-    <StyledH1>{title}</StyledH1>
-    <StyledP>{description}</StyledP>
+//TODO: zrobić prop types
+// eslint-disable-next-line
+const DescriptionPhoto = ({ title, description, animation, secound }) => (
+  <StyledText animation={animation} secound={secound}>
+    <StyledH1 secound={secound}>{title}</StyledH1>
+    <StyledP secound={secound}>{description}</StyledP>
   </StyledText>
 );
 

@@ -94,17 +94,17 @@ export const StyledMainTemplate = styled.section`
 `;
 
 export const StyledMainText = styled.div`
-  width: 92%;
-  background: ${({ theme }) => theme.cream};
-  padding: 30px 0;
+  width: 100%;
+  background: ${({ theme }) => theme.cream_opacity};
   position: absolute;
-  top: 12vh;
+  top: 0vh;
+  min-height: 45vh;
 `;
 
 export const StyledFirstP = styled.p`
   font-size: ${({ theme }) => theme.size.s3};
   color: ${({ theme }) => theme.brown};
-  margin: 0 13px 11px;
+  margin: 30% 13px 11px;
 `;
 
 export const StyledSecoundP = styled.p`

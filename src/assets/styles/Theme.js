@@ -4,6 +4,7 @@ export const theme = {
   brown: 'rgb(50,43,43)',
   light_brown: 'rgb(185,164,164)',
   cream: 'rgb(245,242,242)',
+  cream_opacity: 'rgba(245,242,242,.82)',
   pink: 'rgb(222,181,181)',
   grey: 'rgb(112,112,112)',
   trans_white: 'rgba(255,255,255,.75)',

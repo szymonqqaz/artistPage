@@ -3,7 +3,6 @@ import MenuDesktop from 'components/MenuDesktop/MenuDesktop';
 import small_arrow from 'assets/images/small_arrow.svg';
 import DescriptionPhoto from 'components/DescriptionPhoto/DescriptionPhoto';
 import LoadAndNav from 'components/LoadAndNav/LoadAndNav';
-import PropTypes from 'prop-types';
 import {
   StyledMainWrapper,
   StyledContentWrapper,
@@ -139,9 +138,10 @@ class StartTemplateDesktop extends Component {
   };
 
   render() {
+    // TODO: prop types
+    // eslint-disable-next-line
     const { edges } = this.props;
-    console.log(edges);
-    const { posit, animation, animationLoad } = this.state;
+    const { posit, animation, animationLoad, counter } = this.state;
     return (
       <StyledMainWrapper>
         <MenuDesktop />
@@ -179,7 +179,7 @@ class StartTemplateDesktop extends Component {
           >
             <StyledIcon src={small_arrow} toLeft />
           </StyledWrapperArrow>
-          <LoadAndNav activeElement={this.state.counter} load={animationLoad} />
+          <LoadAndNav activeElement={counter} load={animationLoad} />
           <StyledWrapperArrow onClick={() => this.activeOtherFunctions(true)}>
             <StyledIcon src={small_arrow} />
           </StyledWrapperArrow>
@@ -188,9 +188,5 @@ class StartTemplateDesktop extends Component {
     );
   }
 }
-
-StartTemplateDesktop.PropTypes = {
-  edges: PropTypes.arrayOf(),
-};
 
 export default StartTemplateDesktop;

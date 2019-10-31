@@ -40,10 +40,6 @@ const StyledBurger = styled.div`
   }
 `;
 
-const MenuDesktop = () => (
-  <StyledMainWrapper>
-    <StyledBurger />
-  </StyledMainWrapper>
-);
+const MenuDesktop = () => <StyledMainWrapper />;
 
 export default MenuDesktop;

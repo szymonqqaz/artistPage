@@ -1,10 +1,15 @@
 import React from 'react';
 import MainTemplate from 'templates/MainTemplate';
 import StartTemplate from 'templates/StartTemplate/StartTemplate';
+import ImagesTemplate from 'templates/ImagesTemplate/ImagesTemplate';
+import './index.style.css';
 
 const IndexPage = () => (
   <MainTemplate>
-    <StartTemplate />
+    <>
+      <StartTemplate />
+      <ImagesTemplate />
+    </>
   </MainTemplate>
 );
 
